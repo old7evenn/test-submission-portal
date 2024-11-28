@@ -12,7 +12,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  FormDescription,
 } from '@/components/ui';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWrapper';
 

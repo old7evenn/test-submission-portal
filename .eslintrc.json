@@ -95,7 +95,7 @@
         "ignorePropertyModificationsFor": ["state"]
       }
     ],
-    "react/jsx-no-useless-fragment": "error",
+    "react/jsx-no-useless-fragment": "off",
     "no-unused-expressions": [
       "error",
       {
