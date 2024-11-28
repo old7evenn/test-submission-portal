@@ -104,4 +104,5 @@ type RequestConfig<Params = undefined> = Params extends undefined
 
 type BaseResponse = {
   message: string;
+  errors: string[];
 };

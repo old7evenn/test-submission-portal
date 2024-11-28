@@ -10,7 +10,7 @@ export type SubmissionParams = {
 
 type SubmissionResponse = {
   message?: string;
-  error?: string[];
+  errors?: string[];
   data?: SubmissionParams;
 };
 

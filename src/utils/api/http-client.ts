@@ -195,13 +195,11 @@ export class HttpClient {
       url += this.createSearchParams(options.params);
     }
 
-    const response: Response = await fetch(url, config);
-
-    if (response.status >= 400) {
-      const error = {} as ResponseError;
+    try {
+      const response: Response = await fetch(url, config);
       const body = await this.parseJson<T>(response);
-      error.config = config;
-      error.response = {
+
+      const responseData = {
         url: response.url,
         headers: response.headers,
         status: response.status,
@@ -209,18 +207,31 @@ export class HttpClient {
         success: response.ok,
         data: body,
       };
-      throw new Error(response.statusText, { cause: error });
-    }
 
-    if (!this.interceptorHandlers.response?.length && response.ok) {
-      const body = await this.parseJson<T>(response);
+      if (!response.ok) {
+        const error = new Error(response.statusText) as ResponseError;
+        error.config = config;
+        error.response = responseData;
+        throw error;
+      }
 
       return body;
+    } catch (error: any) {
+      const errorResponse = {
+        url: `${this.baseURL}/${endpoint}`,
+        headers: new Headers(),
+        status: error.response?.status || 500,
+        statusText: error.message || 'Unknown Error',
+        success: false,
+        data: error.response?.data || null,
+      };
+
+      error.config = config;
+      error.response = errorResponse;
+
+      throw error;
     }
-
-    return this.runResponseInterceptors<T>(response, config);
   }
-
   get<T>(endpoint: string, options: Omit<RequestOptions, 'body'> = {}) {
     return this.request<T>(endpoint, 'GET', options);
   }

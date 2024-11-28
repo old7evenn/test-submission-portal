@@ -12,20 +12,25 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  FormDescription,
 } from '@/components/ui';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWrapper';
 
 import { useRequestLevels } from '../../hooks/useRequestLevels';
 import { useSubmissionForm } from './hooks/useSubmissionForm';
+import { FormTextareaWrapper } from '../FormTextareaWrapper/FormTextareaWrapper';
 
 export const SubmissionForm = () => {
   const { form, functions, state } = useSubmissionForm();
   const { levels, error } = useRequestLevels();
 
   return (
-    <FormProvider {...form}>
-      <form onSubmit={functions.onSubmit} className="w-full max-w-sm">
-        <div className="w-full">
+    <div className="w-2/3 max-w-sm space-y-4">
+      <h1 className="sm:text-xl text-center font-bold">
+        Assignment Submission
+      </h1>
+      <FormProvider {...form}>
+        <form onSubmit={functions.onSubmit}>
           <div className="flex flex-col gap-2">
             <FormFieldWrapper
               control={form.control}
@@ -39,13 +44,6 @@ export const SubmissionForm = () => {
               name="email"
               type="email"
               placeholder="Email"
-              disabled={state.loading}
-            />
-            <FormFieldWrapper
-              control={form.control}
-              name="assignment_description"
-              type="text"
-              placeholder="Assignment Description"
               disabled={state.loading}
             />
             <FormFieldWrapper
@@ -82,16 +80,22 @@ export const SubmissionForm = () => {
                 </FormItem>
               )}
             />
+            <FormTextareaWrapper
+              control={form.control}
+              name="assignment_description"
+              placeholder="Assignment Description"
+              disabled={state.loading}
+            />
           </div>
           <Button
-            className="border mt-4 w-full"
+            className="border mt-6 w-full"
             type="submit"
             disabled={state.loading}
           >
             {state.loading ? 'SENDING...' : 'SEND'}
           </Button>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
+    </div>
   );
 };

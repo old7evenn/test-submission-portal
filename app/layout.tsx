@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`min-h-screen flex flex-col justify-center items-center p-4 pb-8 bg-background text-muted-foreground font-sans antialiased ${inter.className} `}
+        className={`min-h-screen flex flex-col justify-center items-center bg-background text-muted-foreground font-sans antialiased ${inter.className} `}
       >
         <Providers>
           {children}
